@@ -13,9 +13,9 @@ ctrlc = "3.4"
 # egui = "0.28"
 # eframe = "0.28"
 
-# VST3 插件支持 (Phase 2 - 暂时注释，等需要时再启用)
-# vst3-sys = "0.3"  # 注意：实际包名可能不同，Phase 2 时需要研究
-# libloading = "0.8"
+# Audio Unit 插件支持 (Phase 2)
+# 使用 macOS 系统原生框架，通过 FFI 调用
+# coreaudio-sys = "0.2"  # CoreAudio 系统绑定
 
 # 工具库
 serde = { version = "1.0", features = ["derive"] }
@@ -23,6 +23,7 @@ serde_json = "1.0"
 log = "0.4"
 env_logger = "0.11"
 anyhow = "1.0"
+base64 = "0.22"
 
 [profile.release]
 opt-level = 3

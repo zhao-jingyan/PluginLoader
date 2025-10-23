@@ -7,11 +7,51 @@
 
 ## [未发布]
 
+### Phase 2 进行中 🚧
+- [x] Audio Unit 插件扫描器
+- [x] 插件串联链（PluginChain）
+- [ ] AU 插件加载器（实际加载和实例化）
+- [ ] 音频处理集成
+
 ### 计划中
-- VST3 插件扫描和加载
 - 图形用户界面
 - 工程文件管理
 - 插件预设保存
+
+---
+
+## [0.2.0-alpha] - 2024-10-23
+
+### 新增 ✨
+- **Audio Unit 插件扫描器** - 扫描 macOS 系统中的 AU 插件
+  - 支持扫描 `/Library/Audio/Plug-Ins/Components` 和用户目录
+  - 自动识别插件 bundle 结构
+  - 生成插件缓存 (JSON)，加速后续启动
+  - 成功扫描 56+ 个插件（Neural DSP, AmpliTube, UAD 等）
+  
+- **插件串联链系统** - PluginChain 核心架构
+  - 支持最多 8 个插件的串联处理
+  - 插件添加、删除、移动、重排序
+  - 插件状态保存和加载接口
+  - 完整的单元测试覆盖
+
+- **插件类型系统** - 类型定义和 trait
+  - `PluginMetadata` - 插件元数据结构
+  - `AudioProcessor` trait - 统一的音频处理接口
+  - `PluginState` - 插件状态序列化支持
+
+### 改进 🔧
+- 从 VST3 切换到 Audio Unit (AU) 格式
+  - AU 是 macOS 原生插件格式，系统集成更好
+  - 更好的稳定性和性能
+  - 与 Logic Pro、GarageBand 等 Apple DAW 兼容
+
+### 技术细节
+- 添加依赖：`base64` 用于插件状态编码
+- 项目结构：新增 `src/plugin/` 模块
+- 测试状态：3 个单元测试全部通过
+
+---
 
 ## [0.1.0] - 2025-10-23
 
