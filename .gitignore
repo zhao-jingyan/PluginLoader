@@ -1,0 +1,42 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+
+# Cargo
+Cargo.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
+
+# 编译输出
+/target/
+/dist/
+/build/
+
+# 插件缓存（Phase 2 会用到）
+/plugin_cache.json
+
+# 用户配置（未来可能会有）
+/user_config.json
+/presets/*.json
+
+# 临时文件
+*.tmp
+*.temp
+
+# 测试文件
+/test_output/

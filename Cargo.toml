@@ -1,0 +1,31 @@
+[package]
+name = "plugin-loader"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# 音频 I/O (Phase 1)
+cpal = "0.15"
+ringbuf = "0.3"
+ctrlc = "3.4"
+
+# GUI (Phase 3 - 暂时注释)
+# egui = "0.28"
+# eframe = "0.28"
+
+# VST3 插件支持 (Phase 2 - 暂时注释，等需要时再启用)
+# vst3-sys = "0.3"  # 注意：实际包名可能不同，Phase 2 时需要研究
+# libloading = "0.8"
+
+# 工具库
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
+env_logger = "0.11"
+anyhow = "1.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
