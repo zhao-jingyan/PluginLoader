@@ -9,9 +9,9 @@ cpal = "0.15"
 ringbuf = "0.3"
 ctrlc = "3.4"
 
-# GUI (Phase 3 - 暂时注释)
-# egui = "0.28"
-# eframe = "0.28"
+# GUI (Phase 3)
+egui = "0.28"
+eframe = "0.28"
 
 # Audio Unit 插件支持 (Phase 2)
 # 使用 macOS 系统原生框架，通过 FFI 调用

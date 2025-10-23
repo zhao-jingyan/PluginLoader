@@ -31,7 +31,6 @@ fn main() -> Result<()> {
         }
     }
 }
-
 /// 测试插件扫描功能（Phase 2）
 fn test_plugin_scan() {
     info!("=== Phase 2: 插件系统测试 ===");
@@ -76,4 +75,5 @@ fn test_plugin_scan() {
         }
     }
 }
+
 
