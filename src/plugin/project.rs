@@ -5,7 +5,7 @@ use anyhow::{Result, Context};
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 use std::fs;
-use log::{info, warn};
+use log::info;
 
 use super::types::PluginState;
 

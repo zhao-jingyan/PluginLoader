@@ -1,11 +1,9 @@
 // Audio Unit FFI 包装器
 // 提供对 macOS AudioComponent API 的安全封装
 
-use anyhow::{Result, Context};
-use log::{info, error, warn};
+use anyhow::Result;
+use log::{info, warn};
 use std::path::Path;
-use std::ffi::CStr;
-use std::ptr;
 
 use super::types::{PluginMetadata, AudioProcessor, PluginParameter, PluginState, PluginFormat};
 
@@ -82,7 +80,7 @@ impl AudioUnitPlugin {
 }
 
 impl AudioProcessor for AudioUnitPlugin {
-    fn process(&mut self, buffer: &mut [f32]) {
+    fn process(&mut self, _buffer: &mut [f32]) {
         // TODO: 实际的音频处理
         // 步骤：
         // 1. 准备 AudioBufferList

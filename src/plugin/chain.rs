@@ -1,5 +1,5 @@
 use anyhow::Result;
-use log::{info, debug};
+use log::info;
 
 use super::types::{AudioProcessor, PluginState};
 

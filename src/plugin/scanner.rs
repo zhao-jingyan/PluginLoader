@@ -120,10 +120,40 @@ impl PluginScanner {
             .to_string();
         
         // 检查 bundle 结构
-        let binary_path = path.join("Contents/MacOS").join(&plugin_name);
+        let macos_dir = path.join("Contents/MacOS");
         
-        if !binary_path.exists() {
-            return Err(anyhow::anyhow!("找不到插件二进制文件: {:?}", binary_path));
+        if !macos_dir.exists() {
+            return Err(anyhow::anyhow!("找不到 Contents/MacOS 目录"));
+        }
+        
+        // 先尝试标准路径（二进制文件名 = bundle 名）
+        let standard_binary = macos_dir.join(&plugin_name);
+        let binary_exists = if standard_binary.exists() {
+            true
+        } else {
+            // 如果标准路径不存在，尝试查找任何可执行文件
+            match fs::read_dir(&macos_dir) {
+                Ok(entries) => {
+                    let mut found = false;
+                    for entry in entries.flatten() {
+                        let entry_path = entry.path();
+                        if entry_path.is_file() {
+                            // 在 macOS 上，可执行文件通常没有扩展名
+                            if entry_path.extension().is_none() {
+                                debug!("找到可执行文件: {:?}", entry_path);
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    found
+                }
+                Err(_) => false,
+            }
+        };
+        
+        if !binary_exists {
+            return Err(anyhow::anyhow!("找不到插件二进制文件"));
         }
         
         // TODO: 在 Phase 2 后期，我们会实际加载插件并读取其元数据

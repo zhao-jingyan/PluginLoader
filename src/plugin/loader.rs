@@ -1,5 +1,5 @@
-use anyhow::{Result, Context};
-use log::{info, warn};
+use anyhow::Result;
+use log::info;
 use std::path::Path;
 
 use super::types::{PluginMetadata, AudioProcessor};
