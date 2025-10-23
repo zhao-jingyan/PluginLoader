@@ -15,7 +15,7 @@ ctrlc = "3.4"
 
 # Audio Unit 插件支持 (Phase 2)
 # 使用 macOS 系统原生框架，通过 FFI 调用
-# coreaudio-sys = "0.2"  # CoreAudio 系统绑定
+coreaudio-sys = "0.2"  # CoreAudio 系统绑定
 
 # 工具库
 serde = { version = "1.0", features = ["derive"] }
@@ -24,6 +24,7 @@ log = "0.4"
 env_logger = "0.11"
 anyhow = "1.0"
 base64 = "0.22"
+chrono = "0.4"
 
 [profile.release]
 opt-level = 3

@@ -84,10 +84,12 @@ PluginLoader/
   - [x] Bypass 信号链
   - [x] 电平表显示
   
-- [ ] **Phase 2** - Audio Unit 插件系统
+- [x] **Phase 2** - Audio Unit 插件系统（已完成）
   - [x] 插件扫描器
-  - [ ] 插件加载（AU 框架集成）
+  - [x] 插件加载器（AU 框架集成）
   - [x] 串联信号链
+  - [x] 音频处理引擎
+  - [x] 工程文件管理
   
 - [ ] **Phase 3** - 图形界面
   - [ ] egui 主窗口

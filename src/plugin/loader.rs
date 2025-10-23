@@ -3,34 +3,66 @@ use log::{info, warn};
 use std::path::Path;
 
 use super::types::{PluginMetadata, AudioProcessor};
+use super::au_wrapper::AudioUnitPlugin;
+use super::scanner::PluginInfo;
 
 /// Audio Unit 插件加载器
 pub struct PluginLoader {
-    // TODO: Phase 2 后期添加实际的 Audio Unit 加载逻辑
+    // 缓存已加载的插件信息
+    loaded_plugins: Vec<String>,
 }
 
 impl PluginLoader {
     pub fn new() -> Self {
-        Self {}
+        Self {
+            loaded_plugins: Vec::new(),
+        }
     }
     
-    /// 加载插件
-    pub fn load_plugin(&self, path: &Path) -> Result<Box<dyn AudioProcessor>> {
+    /// 从路径加载插件
+    pub fn load_plugin(&mut self, path: &Path) -> Result<Box<dyn AudioProcessor>> {
         info!("加载插件: {:?}", path);
         
-        // TODO: Phase 2 实现
-        // 1. 使用 macOS Audio Unit 框架加载插件
-        // 2. 调用 AudioComponentFindNext 查找组件
-        // 3. 使用 AudioComponentInstanceNew 创建实例
-        // 4. 包装成 AudioProcessor trait
+        // 使用 AudioUnitPlugin 包装器加载
+        let plugin = AudioUnitPlugin::load(path)?;
         
-        Err(anyhow::anyhow!("插件加载功能尚未实现（Phase 2）"))
+        // 记录已加载
+        self.loaded_plugins.push(plugin.get_info().id.clone());
+        
+        Ok(Box::new(plugin))
+    }
+    
+    /// 从插件信息加载
+    pub fn load_from_info(&mut self, info: &PluginInfo) -> Result<Box<dyn AudioProcessor>> {
+        if !info.valid {
+            return Err(anyhow::anyhow!("插件无效: {}", info.error.as_ref().unwrap_or(&"未知错误".to_string())));
+        }
+        
+        self.load_plugin(&info.metadata.path)
+    }
+    
+    /// 从元数据加载
+    pub fn load_from_metadata(&mut self, metadata: &PluginMetadata) -> Result<Box<dyn AudioProcessor>> {
+        self.load_plugin(&metadata.path)
     }
     
     /// 卸载插件
-    pub fn unload_plugin(&self, _plugin: Box<dyn AudioProcessor>) {
-        info!("卸载插件");
-        // TODO: Phase 2 实现清理逻辑
+    pub fn unload_plugin(&mut self, plugin: Box<dyn AudioProcessor>) {
+        let id = plugin.get_info().id.clone();
+        info!("卸载插件: {}", id);
+        
+        // 从已加载列表中移除
+        if let Some(pos) = self.loaded_plugins.iter().position(|x| x == &id) {
+            self.loaded_plugins.remove(pos);
+        }
+        
+        // plugin 会在这里自动 drop，触发清理
+        drop(plugin);
+    }
+    
+    /// 获取已加载插件列表
+    pub fn get_loaded_plugins(&self) -> &[String] {
+        &self.loaded_plugins
     }
 }
 
